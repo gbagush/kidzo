@@ -9,6 +9,7 @@ import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
 import { Chip } from "@nextui-org/chip";
 import { Clock } from "lucide-react";
+import { User } from "@nextui-org/user";
 
 import { title } from "@/components/primitives";
 import { correctAllert, wrongAllert, errorAllert } from "@/utils/alerts";
@@ -51,17 +52,17 @@ const GamePerkalian = () => {
       setMessage(`Jawaban benar adalah ${num1 * num2}`);
     }
 
-    try {
-      await axios.post(`/api/game/perkalian`, {
+    axios
+      .post(`/api/game/perkalian`, {
         question: `${num1} × ${num2}`,
         userAnswer: answer,
         answer: `${num1 * num2}`,
         isCorrect: parseInt(answer) === num1 * num2,
         workingTime: timer,
+      })
+      .catch((error) => {
+        errorAllert();
       });
-    } catch (error) {
-      errorAllert();
-    }
 
     setTimeout(() => {
       setGameStatus("default");
@@ -107,8 +108,13 @@ const GamePerkalian = () => {
           {timer}
         </Chip>
       </div>
-      <div className="inline-block max-w-lg text-center justify-center">
-        <h1 className={title()}>Perkalian</h1>
+      <div className="w-full max-w-lg justify-start">
+        <User
+          avatarProps={{ src: `/thumbnails/perkalian.png`, radius: "sm" }}
+          className="mb-4"
+          description="matematika"
+          name="Perkalian"
+        />
       </div>
       <div className="inline-block max-w-lg text-center justify-center mt-8">
         <h1 className={title({ color: "pink" })}>

@@ -23,7 +23,7 @@ import { ChartBar, LogOut } from "lucide-react";
 
 import { ThemeSwitch } from "./theme-switch";
 
-import Logo from "@/public/logo.svg";
+import Logo from "@/public/logo.png";
 
 const Navbar = () => {
   const { data: session, status } = useSession();
@@ -32,7 +32,7 @@ const Navbar = () => {
     <NextUINavbar position="static">
       <Link href="/">
         <NavbarBrand>
-          <Image alt="Logo" height={64} src={Logo} />
+          <Image alt="Logo" height={42} src={Logo} />
         </NavbarBrand>
       </Link>
       <NavbarContent justify="end">

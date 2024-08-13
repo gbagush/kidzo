@@ -24,6 +24,7 @@ import { Pagination } from "@nextui-org/pagination";
 import { User } from "@nextui-org/user";
 import { Chip } from "@nextui-org/chip";
 import { parseDate } from "@internationalized/date";
+import { CircularProgress } from "@nextui-org/progress";
 
 import { games } from "@/config/course";
 import { formatDate, formatTimestamp } from "@/utils/timestamp";
@@ -49,6 +50,8 @@ export default function GameStatsPage({
   const [dataPerPage, setDataPerPage] = useState(10);
   const [submissions, setSubmissions] = useState<ProgressData[]>([]);
   const [pagination, setPagination] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [filterDate, setFilterDate] = useState({
     start: parseDate(
       formatDate(new Date(new Date().setDate(new Date().getDate() - 7)))
@@ -65,6 +68,7 @@ export default function GameStatsPage({
     if (status === "authenticated" && gameData) {
       const fetchData = async () => {
         try {
+          setIsLoading(true);
           const submissionResult = await axios.post(
             `/api/stats/${gameData.id}`,
             {
@@ -74,6 +78,7 @@ export default function GameStatsPage({
           );
 
           setSubmissions(submissionResult.data);
+          setIsLoading(false);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
@@ -145,56 +150,75 @@ export default function GameStatsPage({
         </Dropdown>
       </div>
       <div className="flex justify-between gap-3 items-end">
-        <Table
-          aria-label="Example table with dynamic content"
-          bottomContent={
-            <div className="flex w-full justify-center">
-              <Pagination
-                isCompact
-                showControls
-                color="warning"
-                page={pagination}
-                total={Math.ceil(submissions.length / dataPerPage)}
-                onChange={setPagination}
-              />
-            </div>
-          }
-        >
-          <TableHeader columns={columns}>
-            {(column) => (
-              <TableColumn key={column.key}>{column.label}</TableColumn>
-            )}
-          </TableHeader>
-          {submissions.length < 1 ? (
-            <TableBody emptyContent={"Tidak ada data."}>{[]}</TableBody>
-          ) : (
-            <TableBody items={paginatedSubmissions}>
-              {paginatedSubmissions.map((item) => (
-                <TableRow key={item.id}>
-                  {columns.map((column) => (
-                    <TableCell key={column.key}>
-                      {column.key === "timestamp" &&
-                        formatTimestamp(item.timestamp)}
-                      {column.key === "questions" && item.question}
-                      {column.key === "user-answer" && item.userAnswer}
-                      {column.key === "correct-answer" && item.answer}
-                      {column.key === "is-correct" && (
-                        <Chip
-                          color={item.isCorrect ? "primary" : "danger"}
-                          size="sm"
-                          variant="bordered"
-                        >
-                          {item.isCorrect ? "Benar" : "Salah"}
-                        </Chip>
-                      )}
-                      {column.key === "time" && `${item.workingTime} detik`}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
+        {isLoading ? (
+          <Table aria-label="Loading table">
+            <TableHeader columns={columns}>
+              {(column) => (
+                <TableColumn key={column.key}>{column.label}</TableColumn>
+              )}
+            </TableHeader>
+            <TableBody
+              emptyContent={
+                <div className="flex items-center justify-center ">
+                  <CircularProgress color="default" aria-label="Loading..." />
+                </div>
+              }
+            >
+              {[]}
             </TableBody>
-          )}
-        </Table>
+          </Table>
+        ) : (
+          <Table
+            aria-label="Submissions table"
+            bottomContent={
+              <div className="flex w-full justify-center">
+                <Pagination
+                  isCompact
+                  showControls
+                  color="warning"
+                  page={pagination}
+                  total={Math.ceil(submissions.length / dataPerPage)}
+                  onChange={setPagination}
+                />
+              </div>
+            }
+          >
+            <TableHeader columns={columns}>
+              {(column) => (
+                <TableColumn key={column.key}>{column.label}</TableColumn>
+              )}
+            </TableHeader>
+            {submissions.length < 1 ? (
+              <TableBody emptyContent={"Tidak ada data."}>{[]}</TableBody>
+            ) : (
+              <TableBody items={paginatedSubmissions}>
+                {paginatedSubmissions.map((item) => (
+                  <TableRow key={item.id}>
+                    {columns.map((column) => (
+                      <TableCell key={column.key}>
+                        {column.key === "timestamp" &&
+                          formatTimestamp(item.timestamp)}
+                        {column.key === "questions" && item.question}
+                        {column.key === "user-answer" && item.userAnswer}
+                        {column.key === "correct-answer" && item.answer}
+                        {column.key === "is-correct" && (
+                          <Chip
+                            color={item.isCorrect ? "primary" : "danger"}
+                            size="sm"
+                            variant="bordered"
+                          >
+                            {item.isCorrect ? "Benar" : "Salah"}
+                          </Chip>
+                        )}
+                        {column.key === "time" && `${item.workingTime} detik`}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            )}
+          </Table>
+        )}
       </div>
     </section>
   );
