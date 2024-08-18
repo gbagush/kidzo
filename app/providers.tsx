@@ -7,6 +7,9 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ThemeProviderProps } from "next-themes/dist/types";
 import { SessionProvider } from "next-auth/react";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export interface ProvidersProps {
   children: React.ReactNode;
   themeProps?: ThemeProviderProps;
@@ -18,7 +21,10 @@ export function Providers({ children, themeProps }: ProvidersProps) {
   return (
     <NextUIProvider navigate={router.push}>
       <NextThemesProvider {...themeProps}>
-        <SessionProvider>{children}</SessionProvider>
+        <SessionProvider>
+          <ToastContainer />
+          {children}
+        </SessionProvider>
       </NextThemesProvider>
     </NextUIProvider>
   );

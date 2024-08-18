@@ -26,6 +26,8 @@ const GamePembagian = () => {
   const [timer, setTimer] = useState(0);
   const [isTimerRunning, setIsTimerRunning] = useState(true);
 
+  const theme = localStorage.getItem("theme") || "light";
+
   const { status } = useSession({
     required: true,
     onUnauthenticated() {
@@ -43,10 +45,10 @@ const GamePembagian = () => {
     setIsTimerRunning(false);
 
     if (parseInt(answer) === (num1 * num2) / num2) {
-      correctAllert();
+      correctAllert(theme);
       setGameStatus("success");
     } else {
-      wrongAllert();
+      wrongAllert(theme);
       setGameStatus("danger");
       setMessage(`Jawaban benar adalah ${(num1 * num2) / num2}`);
     }
@@ -60,7 +62,7 @@ const GamePembagian = () => {
         workingTime: timer,
       })
       .catch((error) => {
-        errorAllert();
+        errorAllert("Gagal mengirim jawaban", theme);
       });
 
     setTimeout(() => {
@@ -97,23 +99,24 @@ const GamePembagian = () => {
 
   return (
     <section className="flex flex-col items-center justify-center gap-4 -mt-4">
-      <div className="w-full max-w-lg flex justify-end">
-        <Chip
-          color="warning"
-          radius="md"
-          startContent={<Clock size={18} />}
-          variant="bordered"
-        >
-          {timer}
-        </Chip>
-      </div>
-      <div className="w-full max-w-lg justify-start">
-        <User
-          avatarProps={{ src: `/thumbnails/pembagian.png`, radius: "sm" }}
-          className="mb-4"
-          description="matematika"
-          name="Pembagian"
-        />
+      <div className="w-full max-w-lg flex justify-between items-center">
+        <div className="flex justify-start">
+          <User
+            avatarProps={{ src: `/thumbnails/pembagian.png`, radius: "sm" }}
+            description="matematika"
+            name="Pembagian"
+          />
+        </div>
+        <div className="flex justify-end">
+          <Chip
+            color="warning"
+            radius="md"
+            startContent={<Clock size={18} />}
+            variant="bordered"
+          >
+            {timer}
+          </Chip>
+        </div>
       </div>
       <div className="inline-block max-w-lg text-center justify-center mt-8">
         <h1 className={title({ color: "yellow" })}>

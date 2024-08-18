@@ -120,21 +120,26 @@ export default function GameStatsPage({
         description={gameData.course}
         name={gameData.title}
       />
-      <div className="flex justify-between gap-3 items-end mb-4">
+      <div className="flex justify-between gap-3 items-end ">
         <DateRangePicker
           className="max-w-xs"
           defaultValue={filterDate}
           labelPlacement="outside-left"
           onChange={setFilterDate}
         />
+      </div>
+      <div className="flex justify-between items-center gap-3 items-end">
+        <span className="text-default-400 text-small">
+          Total {`${submissions.length} data`}
+        </span>
         <Dropdown>
           <DropdownTrigger>
             <Button
-              className="capitalize"
+              className="text-default-400"
               endContent={<ChevronDown size={20} />}
               variant="light"
             >
-              {`${dataPerPage}`}
+              {`Data per halaman: ${dataPerPage}`}
             </Button>
           </DropdownTrigger>
           <DropdownMenu
@@ -175,7 +180,6 @@ export default function GameStatsPage({
                 <Pagination
                   isCompact
                   showControls
-                  color="warning"
                   page={pagination}
                   total={Math.ceil(submissions.length / dataPerPage)}
                   onChange={setPagination}
@@ -205,7 +209,7 @@ export default function GameStatsPage({
                           <Chip
                             color={item.isCorrect ? "primary" : "danger"}
                             size="sm"
-                            variant="bordered"
+                            variant="flat"
                           >
                             {item.isCorrect ? "Benar" : "Salah"}
                           </Chip>

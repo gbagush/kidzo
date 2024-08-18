@@ -31,7 +31,7 @@ const getRandomMessage = (messages: string[]) => {
   return messages[Math.floor(Math.random() * messages.length)];
 };
 
-const correctAllert = () => {
+const correctAllert = (theme: string) => {
   const message = getRandomMessage(correctMessages);
 
   toast(message, {
@@ -43,12 +43,12 @@ const correctAllert = () => {
     pauseOnFocusLoss: false,
     draggable: true,
     progress: undefined,
-    theme: "light",
+    theme: theme,
     transition: Bounce,
   });
 };
 
-const wrongAllert = () => {
+const wrongAllert = (theme: string) => {
   const message = getRandomMessage(wrongMessages);
 
   toast.error(message, {
@@ -60,13 +60,13 @@ const wrongAllert = () => {
     pauseOnFocusLoss: false,
     draggable: true,
     progress: undefined,
-    theme: "light",
+    theme: theme,
     transition: Bounce,
   });
 };
 
-const errorAllert = () => {
-  toast.error("Jawaban gagal disimpan!", {
+const errorAllert = (message: string, theme: string) => {
+  toast.error(message, {
     position: "top-center",
     autoClose: 2000,
     hideProgressBar: false,
@@ -75,7 +75,7 @@ const errorAllert = () => {
     pauseOnFocusLoss: false,
     draggable: true,
     progress: undefined,
-    theme: "light",
+    theme: theme,
     transition: Bounce,
   });
 };
