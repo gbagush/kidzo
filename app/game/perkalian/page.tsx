@@ -1,6 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
 import axios from "axios";
+
+import { useState, useEffect } from "react";
+import { useTheme } from "next-themes";
+
 import { signIn, useSession } from "next-auth/react";
 
 import { Skeleton } from "@nextui-org/skeleton";
@@ -27,7 +30,7 @@ const GamePerkalian = () => {
   const [timer, setTimer] = useState(0);
   const [isTimerRunning, setIsTimerRunning] = useState(true);
 
-  const theme = localStorage.getItem("theme") || "light";
+  const { theme, setTheme } = useTheme();
 
   const { status } = useSession({
     required: true,
@@ -46,10 +49,10 @@ const GamePerkalian = () => {
     setIsTimerRunning(false);
 
     if (parseInt(answer) === num1 * num2) {
-      correctAllert(theme);
+      correctAllert(theme || "light");
       setGameStatus("success");
     } else {
-      wrongAllert(theme);
+      wrongAllert(theme || "light");
       setGameStatus("danger");
       setMessage(`Jawaban benar adalah ${num1 * num2}`);
     }
@@ -63,7 +66,7 @@ const GamePerkalian = () => {
         workingTime: timer,
       })
       .catch((error) => {
-        errorAllert("Gagal mengirim jawaban", theme);
+        errorAllert("Gagal mengirim jawaban", theme || "light");
       });
 
     setTimeout(() => {

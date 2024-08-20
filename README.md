@@ -1,53 +1,125 @@
-# Next.js & NextUI Template
+<div align="center">
+  <h1>Kidzo</h1>
+  <img src=https://res.cloudinary.com/dkhpios4h/image/upload/v1723943215/github/kidzo/onfjrgxovrsr1wq4zmas.png width=400>
+</div>
 
-This is a template for creating applications using Next.js 14 (app directory) and NextUI (v2).
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
 
-[Try it on CodeSandbox](https://githubbox.com/nextui-org/next-app-template)
+## ❔ About Project
 
-## Technologies Used
+This project is designed to make the learning process more enjoyable for children, while making it easier for parents or teachers to monitor their progress.
 
-- [Next.js 14](https://nextjs.org/docs/getting-started)
-- [NextUI v2](https://nextui.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Tailwind Variants](https://tailwind-variants.org)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Framer Motion](https://www.framer.com/motion/)
-- [next-themes](https://github.com/pacocoursey/next-themes)
+## 🛠️ Tech Stack
 
-## How to Use
+This project was built using these technologies.
 
-### Use the template with create-next-app
+- [NextJS](https://nextjs.org/) 🚀
+- [NextAuth.js](https://next-auth.js.org/) with Google OAuth 🔐
+- [TailwindCSS](https://tailwindcss.com/) and [NextUI](https://nextui.org/) 🎨
+- [PostgreSQL](https://www.postgresql.org/) with [Prisma ORM](https://www.prisma.io/) 🗄️
 
-To create a new project based on this template using `create-next-app`, run the following command:
+## Variabel env
 
-```bash
-npx create-next-app -e https://github.com/nextui-org/next-app-template
+### NextAuth
+
+Generate a safe NextAuth Secret using this command:
+
+```
+openssl rand -base64 32
 ```
 
-### Install dependencies
+- `NEXTAUTH_URL`
+- `NEXTAUTH_SECRET`
 
-You can use one of them `npm`, `yarn`, `pnpm`, `bun`, Example using `npm`:
+### Google OAuth
 
-```bash
-npm install
-```
+You can get it from [Google API Console](https://console.developers.google.com/)
 
-### Run the development server
+- `GOOGLE_CLIENT_ID`
+- `GOOGLE_CLIENT_SECRET`
 
-```bash
-npm run dev
-```
+### PostgreSQL Prisma
 
-### Setup pnpm (optional)
+You can create it with [Vercel Postgree](https://vercel.com/docs/storage)
 
-If you are using `pnpm`, you need to add the following code to your `.npmrc` file:
+- `POSTGRES_PRISMA_URL`
+- `POSTGRES_URL_NON_POOLING`
 
-```bash
-public-hoist-pattern[]=*@nextui-org/*
-```
+## 🚀 Deployment
 
-After modifying the `.npmrc` file, you need to run `pnpm install` again to ensure that the dependencies are installed correctly.
+### Dev (local) 🖥️
 
-## License
+- Clone the repository
 
-Licensed under the [MIT license](https://github.com/nextui-org/next-app-template/blob/main/LICENSE).
+  ```bash
+  git clone https://github.com/gbagush/kidzo.git
+  ```
+
+- Move to project directory
+
+  ```bash
+  cd kidzo
+  ```
+
+- Install all dependecies
+
+  ```bash
+  npm install
+  ```
+
+- Setup your environment variables, you can see `.env.example` for the example
+
+- Apply prisma schema
+
+  ```bash
+  npm exec prisma migrate dev
+  ```
+
+- Generate prisma client
+
+  ```bash
+  npm exec prisma generate
+  ```
+
+- Run project localy
+
+  ```bash
+  npm run dev
+  ```
+
+Finaly, you can access that website on http://localhost:3000/ by default.
+
+### Production (Vercel) 🌍
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fgbagush%2Fkidzo%2Ftree%2Fmain&env=NEXTAUTH_URL,NEXTAUTH_SECRET,GOOGLE_CLIENT_ID,POSTGRES_PRISMA_URL,POSTGRES_URL_NON_POOLING)
+
+- Click that button
+
+- Fill your environment variables
+
+- ✨ Daboom! Your website its ready
+
+## 🎯 ToDo List
+
+- [ ] More games 🎲
+- [ ] Better stas page 📊
+- [ ] More exciting gameplay 🎉
+
+## ✊ Show Your Support
+
+Give me a ⭐ if you like this project.
+
+[contributors-shield]: https://img.shields.io/github/contributors/gbagush/kidzo.svg?style=for-the-badge
+[contributors-url]: https://github.com/gbagush/kidzo/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/gbagush/kidzo.svg?style=for-the-badge
+[forks-url]: https://github.com/gbagush/kidzo/network/members
+[stars-shield]: https://img.shields.io/github/stars/gbagush/kidzo.svg?style=for-the-badge
+[stars-url]: https://github.com/gbagush/kidzo/stargazers
+[issues-shield]: https://img.shields.io/github/issues/gbagush/kidzo.svg?style=for-the-badge
+[issues-url]: https://github.com/gbagush/kidzo/issues
+[license-shield]: https://img.shields.io/github/license/gbagush/kidzo.svg?style=for-the-badge
+[license-url]: https://github.com/gbagush/kidzo/blob/master/LICENSE
