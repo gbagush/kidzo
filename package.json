@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.4.2",
+    "@hoseinh/react-analog-clock": "^1.0.4",
     "@internationalized/date": "^3.5.5",
     "@nextui-org/avatar": "^2.0.32",
     "@nextui-org/button": "2.0.37",

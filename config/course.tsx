@@ -2,6 +2,7 @@ import { Calculator, Menu } from "lucide-react";
 
 import PerkalianThumb from "@/public/thumbnails/perkalian.png";
 import PembagianThumb from "@/public/thumbnails/pembagian.png";
+import JamAnalog from "@/public/thumbnails/jam-analog.png";
 
 const courses = [
   {
@@ -30,6 +31,13 @@ const games = [
     course: "matematika",
     thumbnail: PembagianThumb,
     target: 10,
+  },
+  {
+    id: "jam-analog",
+    title: "Jam Analog",
+    course: "matematika",
+    thumbnail: JamAnalog,
+    target: 25,
   },
 ];
 
