@@ -13,6 +13,8 @@ import { Skeleton } from "@nextui-org/skeleton";
 
 import { correctAllert, wrongAllert, errorAllert } from "@/utils/alerts";
 
+type StatusType = "default" | "success" | "danger";
+
 export default function JamAnalogGame() {
   const [gameStatus, setGameStatus] = useState<StatusType>("default");
   const [message, setMessage] = useState("");
