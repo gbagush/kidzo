@@ -2,14 +2,14 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
+import { signIn, useSession } from "next-auth/react";
 
-import { AnalogClock } from "@hoseinh/react-analog-clock";
 import { Chip } from "@nextui-org/chip";
 import { Clock } from "lucide-react";
+import AnalogClock from "@/components/shared/clock/clock";
 import { User } from "@nextui-org/user";
 import { Input } from "@nextui-org/input";
 import { Button } from "@nextui-org/button";
-import { Skeleton } from "@nextui-org/skeleton";
 
 import { correctAllert, wrongAllert, errorAllert } from "@/utils/alerts";
 
@@ -31,18 +31,20 @@ export default function JamAnalogGame() {
 
   const { theme, setTheme } = useTheme();
 
+  const { status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      signIn("google");
+    },
+  });
+
   const delay = (delayInms: number) => {
     return new Promise((resolve) => setTimeout(resolve, delayInms));
   };
 
   const generateRandomTime = async () => {
-    setRandomHour(0);
-    setRandomMinute(0);
-    await delay(1);
-    const hour = Math.floor(Math.random() * 12) + 1;
-    const minute = Math.floor(Math.random() * 12) * 5;
-    setRandomHour(hour);
-    setRandomMinute(minute);
+    setRandomHour(Math.floor(Math.random() * 12) + 1);
+    setRandomMinute(Math.floor(Math.random() * 12) * 5);
   };
 
   useEffect(() => {
@@ -83,8 +85,13 @@ export default function JamAnalogGame() {
 
     if (userAnswer === correctAnswer) {
       correctAllert(theme || "light");
+      setGameStatus("success");
     } else {
       wrongAllert(theme || "light");
+      setGameStatus("danger");
+      setMessage(
+        `Jawaban yang benar adalah ${formattedRandomHour}:${formattedRandomMinute}`
+      );
     }
 
     axios
@@ -133,30 +140,11 @@ export default function JamAnalogGame() {
         </div>
       </div>
       <div className="inline-block max-w-lg text-center justify-center mt-8">
-        {!randomHour ? (
-          <div>
-            <Skeleton className="flex rounded-full w-[200px] h-[200px]" />
-          </div>
-        ) : theme === "light" ? (
-          <AnalogClock
-            staticDate={new Date(2022, 0, 1, randomHour, randomMinute, 0)}
-            showSecondHand={false}
-            showBorder={false}
-          />
-        ) : (
-          <AnalogClock
-            staticDate={new Date(2022, 0, 1, randomHour, randomMinute, 0)}
-            showSecondHand={false}
-            whiteNumbers
-            backgroundColor="black"
-            handBaseColor="white"
-            handColor={{
-              hour: "white",
-              minute: "white",
-              second: "tomato",
-            }}
-          />
-        )}
+        <AnalogClock
+          hourRatio={(randomHour % 12) / 12 + randomMinute / 60 / 12}
+          minuteRatio={randomMinute / 60}
+          secondRatio={0}
+        />
       </div>
       <div className="inline-block max-w-lg text-center justify-center mt-8">
         <div className="flex items-center justify-center gap-4">
@@ -179,6 +167,9 @@ export default function JamAnalogGame() {
             value={userMinute}
             onChange={handleMinuteChange}
           />
+        </div>
+        <div className="mt-2">
+          <span>{message}</span>
         </div>
       </div>
       <div className="inline-block max-w-lg text-center justify-center mt-4">
