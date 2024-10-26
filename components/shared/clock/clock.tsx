@@ -8,8 +8,6 @@ interface ClockProps {
 }
 
 function AnalogClock({ hourRatio, minuteRatio, secondRatio }: ClockProps) {
-  console.log(secondRatio);
-
   return (
     <div className="clock">
       <div

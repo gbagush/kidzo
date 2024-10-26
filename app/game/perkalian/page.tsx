@@ -1,12 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
 import MathQuizTemplate from "@/components/templates/math-quiz";
+import { GameProvider } from "@/providers/game-provider";
 
 const GamePerkalian = () => {
   const [questionData, setQuestionData] = useState({
     question: "",
     correctAnswer: 0,
   });
+
   const generateQuestion = () => {
     const num1 = Math.floor(Math.random() * 9) + 1;
     const num2 = Math.floor(Math.random() * 9) + 1;
@@ -25,15 +27,16 @@ const GamePerkalian = () => {
   };
 
   return (
-    <div>
+    <GameProvider
+      gameId="perkalian"
+      colorTheme="pink"
+      onAnswerSubmitted={handleAnswerSubmitted}
+    >
       <MathQuizTemplate
-        gameId="perkalian"
         question={questionData.question}
         correctAnswer={questionData.correctAnswer}
-        colorTheme="pink"
-        onAnswerSubmitted={handleAnswerSubmitted}
       />
-    </div>
+    </GameProvider>
   );
 };
 

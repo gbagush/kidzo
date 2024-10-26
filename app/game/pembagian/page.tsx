@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import MathQuizTemplate from "@/components/templates/math-quiz";
+import { GameProvider } from "@/providers/game-provider";
 
 const GamePembagian = () => {
   const [questionData, setQuestionData] = useState({
@@ -26,15 +27,16 @@ const GamePembagian = () => {
   };
 
   return (
-    <div>
+    <GameProvider
+      gameId="pembagian"
+      colorTheme="yellow"
+      onAnswerSubmitted={handleAnswerSubmitted}
+    >
       <MathQuizTemplate
-        gameId="pembagian"
         question={questionData.question}
         correctAnswer={questionData.correctAnswer}
-        colorTheme="yellow"
-        onAnswerSubmitted={handleAnswerSubmitted}
       />
-    </div>
+    </GameProvider>
   );
 };
 
