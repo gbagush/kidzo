@@ -102,6 +102,8 @@ const JamAnalogGame = forwardRef<GameRef>((props, ref) => {
   );
 });
 
+JamAnalogGame.displayName = "JamAnalogGame";
+
 const WrappedJamAnalogGame = () => {
   const gameRef = useRef<GameRef>(null);
 
@@ -119,5 +121,7 @@ const WrappedJamAnalogGame = () => {
     </GameProvider>
   );
 };
+
+WrappedJamAnalogGame.displayName = "WrappedJamAnalogGame";
 
 export default WrappedJamAnalogGame;

@@ -2,9 +2,11 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { useTheme } from "next-themes";
 import { signIn, useSession } from "next-auth/react";
+
 import { Chip } from "@nextui-org/chip";
 import { User } from "@nextui-org/user";
 import { Clock } from "lucide-react";
+
 import { correctAllert, wrongAllert, errorAllert } from "@/utils/alerts";
 
 // Define specific types for color variants
@@ -88,12 +90,12 @@ type GameProviderProps = {
   onAnswerSubmitted: () => void;
 };
 
-export const GameProvider = ({
+export const GameProvider: React.FC<GameProviderProps> = ({
   children,
   gameId,
   colorTheme,
   onAnswerSubmitted,
-}: GameProviderProps) => {
+}) => {
   const [answer, setAnswer] = useState("");
   const [gameStatus, setGameStatus] = useState<GameStatus>("default");
   const [message, setMessage] = useState("");
@@ -208,3 +210,5 @@ export const GameProvider = ({
     </GameContext.Provider>
   );
 };
+
+GameProvider.displayName = "GameProvider";
